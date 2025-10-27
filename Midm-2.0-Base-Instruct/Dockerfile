@@ -1,5 +1,5 @@
 # export HUGGING_FACE_HUB_TOKEN=
-FROM vllm/vllm-openai:latest
+FROM vllm/vllm-openai:v0.11.0
 
 # ====== 빌드 인자/환경 ======
 ARG HF_TOKEN
