@@ -23,13 +23,14 @@ sudo docker run -d --name vllm-midm \
   --gpus all --ipc=host -p 8000:8000 \
   -e VLLM_LOGGING_LEVEL=DEBUG \
   -e LMCACHE_CONFIG_FILE=/config_dir/lmcache_config.yaml \
+  -e PYTHONHASHSEED=0 \
   -v /home/xsailor6/hmchoi/Midm-2.0-Base-Instruct:/config_dir:ro \
   -v /home/xsailor6/hmchoi/lmcache_storage:/lmcache \
-  potato4332/vllm-midm:v0.0.3 \
+  potato4332/vllm-midm:v0.11.0 \
   --model /model \
   --served-model-name Midm-2.0-Base-Instruct \
   --tensor-parallel-size 4 \
-  --gpu-memory-utilization 0.9 \
+  --gpu-memory-utilization 0.8 \
   --kv-transfer-config '{"kv_connector":"LMCacheConnectorV1","kv_role":"kv_both"}'
 
 # 컨테이너 시작 대기
