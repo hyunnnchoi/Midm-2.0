@@ -1,4 +1,4 @@
-# export HUGGING_FACE_HUB_TOKEN=
+# export HUGGING_FACE_HUB_TOKEN
 FROM vllm/vllm-openai:v0.11.0
 
 # ====== 빌드 인자/환경 ======
@@ -17,7 +17,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # ====== (보수적으로) 파이썬 의존성 ======
 # - huggingface_hub: snapshot_download 사용
-# - 벤치 스크립트들이 종종 쓰는 유틸들 포함(pandas, tqdm, requests)
 RUN python3 -m pip install --no-cache-dir -U \
     huggingface_hub requests tqdm pandas
 
@@ -47,4 +46,4 @@ RUN git clone https://github.com/hyunnnchoi/vllm.git /vllm && \
 WORKDIR /vllm/benchmarks/multi_turn
 
 # 컨테이너 스타트 시 서버가 즉시 뜨게 (필요 시 served-model-name 변경)
-CMD ["--model","/model","--served-model-name","Midm-2.0-Base-Instruct","--dtype","auto","--gpu-memory-utilization","0.92","--api-key","dummy"]
+CMD ["--model","/model","--served-model-name","Midm-2.0-Base-Instruct","--dtype","auto","--gpu-memory-utilization","0.8","--api-key","dummy"]
