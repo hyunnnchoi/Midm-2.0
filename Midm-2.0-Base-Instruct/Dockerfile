@@ -15,10 +15,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git wget ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
-# ====== (보수적으로) 파이썬 의존성 ======
-# - huggingface_hub: snapshot_download 사용
+# ====== 의존성 버전 고정 (추가) ======
 RUN python3 -m pip install --no-cache-dir -U \
-    huggingface_hub requests tqdm pandas
+    "huggingface-hub>=0.34.0,<1.0" \
+    requests tqdm pandas
 
 # ====== 모델을 이미지에 '굽기' (/model) ======
 RUN mkdir -p /model && python3 - <<'PY'
@@ -34,6 +34,8 @@ snapshot_download(
 PY
 
 # ====== vLLM 레포 전체 클론 ======
+# CACHEBUST 인자를 사용하여 이 단계부터 캐시 무효화
+ARG CACHEBUST=1
 RUN git clone https://github.com/hyunnnchoi/vllm.git /vllm && \
     cd /vllm && \
     git fetch --all && \
@@ -46,4 +48,4 @@ RUN git clone https://github.com/hyunnnchoi/vllm.git /vllm && \
 WORKDIR /vllm/benchmarks/multi_turn
 
 # 컨테이너 스타트 시 서버가 즉시 뜨게 (필요 시 served-model-name 변경)
-CMD ["--model","/model","--served-model-name","Midm-2.0-Base-Instruct","--dtype","auto","--gpu-memory-utilization","0.8","--api-key","dummy"]
+CMD ["--model","/model","--served-model-name","Midm-2.0-Base-Instruct","--dtype","auto","--gpu-memory-utilization","0.92","--api-key","dummy"]
