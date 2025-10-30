@@ -18,7 +18,7 @@ sudo docker rm vllm-midm 2>/dev/null
 echo "Starting vLLM container..."
 sudo docker run -d --name vllm-midm \
   -p 8000:8000 --gpus all --ipc=host \
-  potato4332/vllm-midm:v0.11.0 \
+  potato4332/vllm-midm:v0.11.0-debug \
   --model /model \
   --served-model-name Midm-2.0-Base-Instruct \
   --tensor-parallel-size 4 \
