@@ -18,6 +18,8 @@ sudo docker rm vllm-midm 2>/dev/null
 echo "Starting vLLM container..."
 sudo docker run -d --name vllm-midm \
   -p 8000:8000 --gpus all --ipc=host \
+  -e VLLM_SCHEDULER_CSV_LOG="1" \
+  -e VLLM_SCHEDULER_CSV_LOG_DIR="/tmp/vllm_scheduler_logs" \
   potato4332/vllm-midm:v0.11.0-debug \
   --model /model \
   --served-model-name Midm-2.0-Base-Instruct \
